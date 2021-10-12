@@ -22,6 +22,8 @@ try {
 } catch (error) {
   console.log(error);
 }
+
+app.use(express.json());
 app.use("/questions", questionRouter);
 
 app.get("/", (_req, res) => {
