@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { DATABASE_URL } from "./config/secrets";
+import adminRouter from "./routes/admin";
+import authRouter from "./routes/auth";
 import questionRouter from "./routes/questions";
 
 const app = express();
@@ -24,10 +26,13 @@ try {
 }
 
 app.use(express.json());
+
+app.use("/admin", adminRouter);
+app.use("/auth", authRouter);
 app.use("/questions", questionRouter);
 
 app.get("/", (_req, res) => {
-  res.send("<h2>Let's code!</h2>");
+  res.send("<h2>Blitz Quiz server</h2>");
 });
 
 app.listen(PORT as number, hostname, () =>
