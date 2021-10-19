@@ -10,26 +10,28 @@ const App = () => {
   return (
     <div>
       <Router>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/result" exact>
-            Result
-          </Route>
-          <Route exact path="/auth">
-            <Route exact path="/login">
-              <Login />
+        <Suspense fallback={<div>...loading</div>}>
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+          </nav>
+          <Switch>
+            <Route path="/" exact>
+              <Home />
             </Route>
-            <Route exact path="/signup">
-              <Signup />
+            <Route path="/result" exact>
+              Result
             </Route>
-          </Route>
-        </Switch>
+            <Route exact path="/auth">
+              <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/signup">
+                <Signup />
+              </Route>
+            </Route>
+          </Switch>
+        </Suspense>
       </Router>
     </div>
   );
