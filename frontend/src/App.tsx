@@ -1,4 +1,10 @@
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import React, { Suspense } from "react";
+
+const Login = React.lazy(() => import("./pages/Auth/Login"));
+const Signup = React.lazy(() => import("./pages/Auth/Signup"));
+const Home = React.lazy(() => import("./pages/Home/Home"));
+const Result = React.lazy(() => import("./pages/Result/Result"));
 
 const App = () => {
   return (
@@ -10,21 +16,21 @@ const App = () => {
         </nav>
         <Switch>
           <Route path="/" exact>
-            <h1>Home</h1>
+            <Home />
           </Route>
-          <Route path="/about" exact>
-            <h1>About</h1>
+          <Route path="/result" exact>
+            Result
+          </Route>
+          <Route exact path="/auth">
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
           </Route>
         </Switch>
       </Router>
-
-      <style>
-        {`
-    a {
-      margin: 10px;
-    }
-        `}
-      </style>
     </div>
   );
 };
