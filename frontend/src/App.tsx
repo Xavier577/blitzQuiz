@@ -1,9 +1,10 @@
 import { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
+import Home from "./pages/Home/Home";
+import Quiz from "./pages/Quiz/Quiz";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
-import Home from "./pages/Home/Home";
 
 const App = () => {
   return (
@@ -13,6 +14,9 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             <Home />
+          </Route>
+          <Route path="/quiz" exact>
+            <Quiz />
           </Route>
           <Route path="/result" exact>
             Result

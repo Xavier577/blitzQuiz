@@ -1,56 +1,12 @@
 import express from "express";
+import mockQuestions from "../mock/questions";
 
 const questionRouter = express.Router();
 
 // get questions
 
 questionRouter.get("/", (_req, res) => {
-  res.json([
-    {
-      id: 1,
-      question: "who is the founder of blitzQuiz",
-      options: {
-        a: "Joseph Tsegen",
-        b: "Elon Musk",
-        c: "Ben Awad",
-        d: "Bill gates",
-      },
-      answer: "Joseph Tsegen",
-    },
-    {
-      id: 2,
-      question: "who is the founder of blitzQuiz",
-      options: {
-        a: "Joseph Tsegen",
-        b: "Elon Musk",
-        c: "Ben Awad",
-        d: "Bill gates",
-      },
-      answer: "Joseph Tsegen",
-    },
-    {
-      id: 3,
-      question: "who is the founder of blitzQuiz",
-      options: {
-        a: "Joseph Tsegen",
-        b: "Elon Musk",
-        c: "Ben Awad",
-        d: "Bill gates",
-      },
-      answer: "Joseph Tsegen",
-    },
-    {
-      id: 4,
-      question: "who is the founder of blitzQuiz",
-      options: {
-        a: "Joseph Tsegen",
-        b: "Elon Musk",
-        c: "Ben Awad",
-        d: "Bill gates",
-      },
-      answer: "Joseph Tsegen",
-    },
-  ]);
+  res.json(mockQuestions);
 });
 
 export default questionRouter;
