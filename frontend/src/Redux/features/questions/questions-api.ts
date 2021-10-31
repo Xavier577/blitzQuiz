@@ -1,16 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Question {
-  id: number;
-  question: string;
-  options: {
-    a: string;
-    b: string;
-    c: string;
-    d: string;
-  };
-  answer: string;
-}
+import { Question } from "../../../types/interfaces";
 
 export const apiSlice = createApi({
   reducerPath: "question-api",

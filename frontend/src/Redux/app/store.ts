@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "../features/questions/questions-api";
+import { apiSlice, currentQuestionReducer } from "../features";
 
 export const store = configureStore({
   reducer: {
+    currentQuestion: currentQuestionReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {

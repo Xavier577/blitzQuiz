@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
-import { DATABASE_URL } from "./config/secrets";
+// import mongoose from "mongoose";
+// import { database_url } from "./config/secrets";
 import adminRouter from "./routes/admin";
 import authRouter from "./routes/auth";
 import questionRouter from "./routes/questions";
@@ -18,12 +18,12 @@ app.use(
   })
 );
 
-try {
-  mongoose.connect(DATABASE_URL);
-  console.log("connected to mongoDB!");
-} catch (error) {
-  console.log(error);
-}
+// try {
+//   mongoose.connect(DATABASE_URL);
+//   console.log("connected to mongoDB!");
+// } catch (error) {
+//   console.log(error);
+// }
 
 app.use(express.json());
 
