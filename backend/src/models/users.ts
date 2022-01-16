@@ -16,11 +16,14 @@ const quizRecord = new Schema({
 });
 
 const User = new Schema({
+  firstName: String,
+  lastName: String,
   email: {
     type: String,
     required: true,
   },
-  password: {
+  profileImg: String,
+  googleId: {
     type: String,
     required: true,
   },
