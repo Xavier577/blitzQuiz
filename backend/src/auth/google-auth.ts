@@ -3,7 +3,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "../config/secrets";
 import User from "../models/users";
 
-const GOOGLE_CALLBACK_URL = "http://localhost:8080/auth/google/callback";
+const GOOGLE_CALLBACK_URL = "/auth/google/callback";
 
 passport.use(
   new GoogleStrategy(
