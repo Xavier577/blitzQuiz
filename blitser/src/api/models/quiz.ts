@@ -51,4 +51,9 @@ const QuizSchema = new Schema<Quiz>({
   updatedAt: { type: Date, default: () => new Date() },
 });
 
+QuizSchema.pre("save", function (next) {
+  this.updatedAt = new Date();
+  next();
+});
+
 export default model("quiz", QuizSchema);

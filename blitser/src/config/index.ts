@@ -8,13 +8,16 @@ interface DBConnectOptions {
   delay?: number;
 }
 
-export const connectDB = async (dbConnectOptions?: DBConnectOptions) => {
+export const connectDB = async (
+  url = baseSettings.variables.DATABASE_URL,
+  dbConnectOptions?: DBConnectOptions
+) => {
   let retries = dbConnectOptions?.retries ? dbConnectOptions.retries : 3;
   let delay = dbConnectOptions?.delay ? dbConnectOptions.delay : 3;
 
   while (retries > 0) {
     try {
-      await mongoose.connect(baseSettings.variables?.DATABASE_URL as string);
+      await mongoose.connect(url);
       console.log(chalk.greenBright("Successfully connected to DB!"));
       break;
     } catch (err) {

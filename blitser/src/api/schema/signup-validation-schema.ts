@@ -1,6 +1,8 @@
 import Joi from "joi";
 
 const signUpValidationSchema = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,

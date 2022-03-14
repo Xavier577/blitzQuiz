@@ -5,8 +5,9 @@ import session, { SessionOptions } from "express-session";
 import Redis, { RedisOptions } from "ioredis";
 import ConnectRedis from "connect-redis";
 
-process.env.NODE_ENV !== "production" &&
-  dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
+const envFilePath = path.join(__dirname, "..", "..", ".env"); //path to env file
+
+process.env.NODE_ENV !== "production" && dotenv.config({ path: envFilePath });
 
 interface BaseSettings {
   port: string;
