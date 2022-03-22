@@ -12,5 +12,5 @@ export const internalErrorHandler = (
   _next: NextFn
 ) => {
   console.error(err);
-  res.sendStatus(500);
+  return res.sendStatus(500);
 };

@@ -1,23 +1,20 @@
 import { Server } from "http";
-import mongoose from "mongoose";
+import { connect, ConnectOptions } from "mongoose";
 import chalk from "chalk";
 import { baseSettings } from "./settings";
-
-interface DBConnectOptions {
-  retries?: number;
-  delay?: number;
-}
+import { DBConnectOptions } from "../types";
 
 export const connectDB = async (
   url = baseSettings.variables.DATABASE_URL,
-  dbConnectOptions?: DBConnectOptions
+  dbConnectOptions?: DBConnectOptions,
+  connectOptions?: ConnectOptions
 ) => {
   let retries = dbConnectOptions?.retries ? dbConnectOptions.retries : 3;
   let delay = dbConnectOptions?.delay ? dbConnectOptions.delay : 3;
 
   while (retries > 0) {
     try {
-      await mongoose.connect(url);
+      await connect(url, connectOptions);
       console.log(chalk.greenBright("Successfully connected to DB!"));
       break;
     } catch (err) {

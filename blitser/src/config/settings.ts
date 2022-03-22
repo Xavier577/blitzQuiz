@@ -1,27 +1,13 @@
 import dotenv from "dotenv";
 import path from "path";
-import { CorsOptions } from "cors";
-import session, { SessionOptions } from "express-session";
-import Redis, { RedisOptions } from "ioredis";
+import session from "express-session";
+import Redis from "ioredis";
 import ConnectRedis from "connect-redis";
+import { AdditionalSettings, BaseSettings } from "../types";
 
 const envFilePath = path.join(__dirname, "..", "..", ".env"); //path to env file
 
 process.env.NODE_ENV !== "production" && dotenv.config({ path: envFilePath });
-
-interface BaseSettings {
-  port: string;
-  environment: string;
-  variables: {
-    [name: string]: string;
-  };
-}
-
-interface AdditionalSettings {
-  cors?: CorsOptions;
-  session?: SessionOptions;
-  redis?: RedisOptions;
-}
 
 export const RedisStore = ConnectRedis(session);
 export const RedisClient = new Redis();
@@ -54,5 +40,13 @@ export const additionSettings: AdditionalSettings = {
       secure: IN_PROD,
       maxAge: SESSION_IDLE_TIMEOUT,
     },
+  },
+};
+
+export const testSettings: BaseSettings = {
+  port: 4000,
+  environment: "test",
+  variables: {
+    DATABASE_URL: "mongodb://127.0.0.1:27017/bliser_testserver",
   },
 };
