@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import AsyncHook from '../shared/helpers/async-hook';
 import { TokenService } from 'src/token/token.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
-import { QuizFactory } from './quiz.factory';
+import { QuizFactory } from './factories/quiz.factory';
 import { DEFAULT_LINK_TOKEN_EXPIRY } from '../shared/constants';
 import { UsersFactory } from '../users/users.factory';
+import { QuestionSerializer } from './question.serializer';
 
 @Injectable()
 export class QuizService {
@@ -15,8 +16,18 @@ export class QuizService {
   ) {}
 
   async create(creatorId: string, createQuizDto: CreateQuizDto) {
+    const { questions, ...rest } = createQuizDto;
+    const serialzedQuestions = questions.map(
+      (question) => new QuestionSerializer(question),
+    );
+
     const [quiz, quizCreateError] = await AsyncHook(
-      this.quizFactory.createQuiz(createQuizDto),
+      this.quizFactory.createQuiz({
+        questions: {
+          create: serialzedQuestions,
+        },
+        ...rest,
+      }),
     );
 
     if (quizCreateError) throw quizCreateError;

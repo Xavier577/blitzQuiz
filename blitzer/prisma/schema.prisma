@@ -21,18 +21,18 @@ model User {
 }
 
 model Quiz {
-  id                       Int          @id @default(autoincrement())
-  quizId                   String       @unique @default(uuid()) @map("quiz_id")
-  title                    String
-  timed                    Boolean      @default(false)
-  timeLimit                Int          @default(0)
-  expire                   Int          @default(86400000)
-  maximumNumberOfQuestions Int
-  marksPerQuestion         Int
-  creator                  User         @relation(fields: [creatorId], references: [userId])
-  creatorId                String       @map("creator_id")
-  questions                Question[]
-  submission               Submission[]
+  id                     Int          @id @default(autoincrement())
+  quizId                 String       @unique @default(uuid()) @map("quiz_id")
+  title                  String
+  timed                  Boolean      @default(false)
+  timeLimit              Int          @default(0)
+  expire                 Int          @default(86400000)
+  totalNumberOfQuestions Int          @default(1)
+  marksPerQuestion       Int
+  creator                User         @relation(fields: [creatorId], references: [userId])
+  creatorId              String       @map("creator_id")
+  questions              Question[]
+  submission             Submission[]
 
   @@map("quizzes")
 }
