@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  pk        Int      @id @default(autoincrement())
+  id        String   @unique @default(uuid()) @db.Uuid
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  profile   Profile?
+
+  @@unique([pk, id])
+  @@map("users")
+}
+
+model Profile {
+  pk           Int          @id @default(autoincrement())
+  id           String       @unique @default(uuid()) @db.Uuid
+  firstName    String       @map("first_name")
+  lastName     String       @map("last_name")
+  email        String       @unique
+  profileImage String?      @map("profile_image")
+  userPk       Int          @map("user_pk")
+  userId       String       @unique @map("user_id") @db.Uuid
+  user         User         @relation(fields: [userPk, userId], references: [pk, id])
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  Quiz         Quiz[]
+  Submission   Submission[]
+
+  @@unique([pk, id])
+  @@unique([userPk, userId])
+  @@map("profiles")
+}
+
+model Quiz {
+  pk                     Int          @id @default(autoincrement())
+  id                     String       @default(uuid()) @db.Uuid
+  title                  String
+  timed                  Boolean      @default(false)
+  timeLimit              Int          @default(0)
+  expire                 Int          @default(86400000)
+  totalNumberOfQuestions Int          @default(1)
+  marksPerQuestion       Int
+  creatorPk              Int          @map("creator_pk")
+  creatorId              String       @map("creator_id") @db.Uuid
+  profile                Profile      @relation(fields: [creatorPk, creatorId], references: [pk, id])
+  submissions            Submission[]
+  questions              Question[]
+
+  @@unique([pk, id])
+  @@map("quizzes")
+}
+
+model Submission {
+  pk              Int               @id @default(autoincrement())
+  id              String            @unique @default(uuid()) @db.Uuid
+  profilePk       Int               @map("profile_pk")
+  profileId       String            @map("profile_id")
+  profile         Profile           @relation(fields: [profilePk], references: [pk])
+  quizPk          Int               @map("quiz_pk")
+  quizId          String            @map("quiz_id") @db.Uuid
+  quiz            Quiz              @relation(fields: [quizPk, quizId], references: [pk, id])
+  quizResult      QuizResult?
+  SubmittedAnswer SubmittedAnswer[]
+
+  @@unique([pk, id])
+  @@map("submissions")
+}
+
+model SubmittedAnswer {
+  pk              Int        @id @default(autoincrement())
+  id              String     @default(uuid()) @db.Uuid
+  selectedOptions Options    @map("selected_option")
+  submissionPk    Int        @map("submission_pk")
+  submissionId    String     @map("submission_id") @db.Uuid
+  submission      Submission @relation(fields: [submissionPk, submissionId], references: [pk, id])
+
+  @@map("submitted_answers")
+}
+
+model QuizResult {
+  pk           Int        @id @default(autoincrement())
+  id           String     @default(uuid()) @db.Uuid
+  score        Float
+  submissionPk Int        @map("submission_pk")
+  submissionId String     @unique @map("submission_id") @db.Uuid
+  submission   Submission @relation(fields: [submissionPk, submissionId], references: [pk, id])
+
+  @@unique([submissionPk, submissionId])
+  @@map("quiz_results")
+}
+
+model Question {
+  pk       Int              @id @default(autoincrement())
+  id       String           @unique @default(uuid()) @db.Uuid
+  question String
+  quizPk   Int
+  quizId   String           @map("quiz_id") @db.Uuid
+  quiz     Quiz             @relation(fields: [quizPk, quizId], references: [pk, id])
+  answer   Answer?
+  options  QuestionOption[]
+
+  @@unique([pk, id])
+  @@map("questions")
+}
+
+model QuestionOption {
+  pk         Int      @id @default(autoincrement())
+  id         String   @default(uuid()) @db.Uuid
+  optionA    String   @map("option_a")
+  optionB    String   @map("option_b")
+  optionC    String   @map("option_c")
+  optionD    String   @map("option_d")
+  questionPk Int      @map("question_pk")
+  questionId String   @map("question_id") @db.Uuid
+  question   Question @relation(fields: [questionPk, questionId], references: [pk, id])
+
+  @@map("question_options")
+}
+
+model Answer {
+  pk         Int      @id @default(autoincrement())
+  id         String   @default(uuid()) @db.Uuid
+  option     Options
+  answer     String
+  questionPk Int      @map("question_pk")
+  questionId String   @map("question_id") @db.Uuid
+  question   Question @relation(fields: [questionPk, questionId], references: [pk, id])
+
+  @@unique([questionPk, questionId])
+  @@map("answers")
+}
+
+enum Options {
+  optionA @map("option_a")
+  optionB @map("option_b")
+  optionC @map("option_c")
+  optionD @map("option_d")
+}
