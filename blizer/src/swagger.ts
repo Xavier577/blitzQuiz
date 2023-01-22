@@ -1,4 +1,5 @@
 import { AuthenticationModule } from '@api/authentication/authentication.module';
+import { QuizModule } from '@api/quiz/quiz.module';
 import { UsersModule } from '@api/users/users.module';
 import { INestApplication } from '@nestjs/common';
 import {
@@ -26,7 +27,7 @@ export default function SwaggerInit(app: INestApplication) {
 
   const document = SwaggerModule.createDocument(app, documentConfig, {
     operationIdFactory: (_controllerKey, methodKey) => methodKey,
-    include: [AuthenticationModule, UsersModule],
+    include: [AuthenticationModule, QuizModule, UsersModule],
   });
 
   SwaggerModule.setup('/api/docs', app, document, customOptions);
